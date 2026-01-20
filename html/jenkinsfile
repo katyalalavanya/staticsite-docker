@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    stages {
+        stage("codecheckout") {
+            steps {
+            git 'https://github.com/katyalalavanya/staticsite-docker.git'
+            }
+        }
+        stage("build") {
+            steps {
+                sh 'docker build -t app:v1 html'
+            }
+        }
+        stage("deploy") {
+        steps {
+            sh 'docker run -itd --name cont1 -p 8083:80 app:v1'
+            }
+        }
+    }
+}
